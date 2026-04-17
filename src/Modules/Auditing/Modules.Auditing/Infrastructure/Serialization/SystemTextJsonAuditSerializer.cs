@@ -11,8 +11,24 @@ public sealed class SystemTextJsonAuditSerializer : IAuditSerializer
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Converters = { new JsonStringEnumConverter() },
-        WriteIndented = false
+        WriteIndented = false,
+        MaxDepth = 32
     };
 
-    public string SerializePayload(object payload) => JsonSerializer.Serialize(payload, Opts);
+    private const int MaxPayloadLength = 1_000_000;
+
+    public string SerializePayload(object payload)
+    {
+        if (payload is null)
+            return string.Empty;
+
+        var json = JsonSerializer.Serialize(payload, Opts);
+
+        if (json.Length > MaxPayloadLength)
+        {
+            return json[..MaxPayloadLength];
+        }
+
+        return json;
+    }
 }

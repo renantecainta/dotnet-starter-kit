@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import { createApiClient, createAuthEndpoints } from "@fsh/api-client";
 
 export const authConfig: NextAuthConfig = {
+  secret: process.env.AUTH_SECRET ?? "development-secret-change-in-production",
   providers: [
     Credentials({
       name: "credentials",

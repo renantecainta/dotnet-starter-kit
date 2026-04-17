@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf .next .turbo node_modules"
+    "clean": "rm -rf .next .turbo node_modules",
+    "generate": "cd packages/api-client && pnpm generate"
   },
   "dependencies": {
     "next": "16.2.1",
